@@ -8,6 +8,6 @@ be used for any Node.js app
 
 ### Key endpoints
 
-`/docs` - Swagger Documentation
-`/docs/errors.json` - Errors documentation in JSON format
-`/docs/errors.html` - Errors documentation in HTML format
+* `/docs` - Swagger Documentation
+* `/docs/errors.json` - Errors documentation in JSON format
+* `/docs/errors.html` - Errors documentation in HTML format
