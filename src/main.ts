@@ -1,12 +1,21 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { FastifyAdapter } from '@nestjs/platform-fastify';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { PinoLogger } from '@shared/modules/logger/loggers/pino-logger.service';
+import { setupOpenApi } from '@shared/bootstrap/bootstrap-plugins';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule, new FastifyAdapter(), {
-    bufferLogs: true,
-  });
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter(),
+    { bufferLogs: true },
+  );
+
+  if (process.env.NODE_ENV === 'development') {
+    app.enableCors();
+  }
+
+  setupOpenApi(app);
 
   const logger = app.get(PinoLogger);
   app.useLogger(logger);
