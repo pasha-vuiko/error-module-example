@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { PinoLogger } from '@shared/modules/logger/loggers/pino-logger.service';
-import { setupOpenApi } from '@shared/bootstrap/bootstrap-plugins';
+import { setupExceptionFilters, setupOpenApi } from '@shared/bootstrap/bootstrap-plugins';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -16,6 +16,7 @@ async function bootstrap(): Promise<void> {
   }
 
   setupOpenApi(app);
+  setupExceptionFilters(app);
 
   const logger = app.get(PinoLogger);
   app.useLogger(logger);

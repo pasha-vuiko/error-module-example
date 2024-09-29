@@ -2,6 +2,7 @@ import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerCustomOptions, SwaggerModule } from '@nestjs/swagger';
 import { packageJsonInfo } from '@shared/constants/package-json-info';
 import { appExceptionsRegistry } from '@shared/modules/error/exceptions/app-exceptions-registry';
+import { AllExceptionsFilter } from '@shared/modules/error/exception-filters/all-exceptions/all-exceptions.filter';
 
 export function setupOpenApi(app: NestFastifyApplication): void {
   const swaggerConfig = new DocumentBuilder()
@@ -27,4 +28,8 @@ export function setupOpenApi(app: NestFastifyApplication): void {
 
     res.type('text/html').send(html);
   });
+}
+
+export function setupExceptionFilters(app: NestFastifyApplication): void {
+  app.useGlobalFilters(new AllExceptionsFilter());
 }
